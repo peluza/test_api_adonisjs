@@ -28,6 +28,19 @@ Route.group(function () {
 }).prefix("api/v1/users");
 
 /*
+ routes for projects
+
+ return get all projects for users our create projects for users
+*/
+
+Route.group(function () {
+  Route.get("consult", "ProjectController.index");
+  Route.post("create", "ProjectController.create");
+})
+  .prefix("api/v1/projects")
+  .middleware("auth");
+
+/*
  routes for test
 
  return Hello world in JSON
