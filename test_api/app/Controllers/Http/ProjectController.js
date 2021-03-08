@@ -1,6 +1,7 @@
 "use strict";
 
 const Project = use("App/Models/Project");
+const AutorizationService = use("App/Service/AutorizationService");
 
 class ProjectController {
   async index({ auth }) {
@@ -18,6 +19,15 @@ class ProjectController {
       address,
     });
     await user.projects().save(project);
+    return project;
+  }
+
+  async destroy({ auth, params, response }) {
+    const user = await auth.getUser();
+    const { id } = params;
+    const project = await Project.find(id);
+    AutorizationService.verification(project, user);
+    await project.delete();
     return project;
   }
 }
