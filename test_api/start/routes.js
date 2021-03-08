@@ -37,6 +37,7 @@ Route.group(function () {
   Route.get("consult", "ProjectController.index");
   Route.post("create", "ProjectController.create");
   Route.delete("delete/:id", "ProjectController.destroy");
+  Route.patch("update/:id", "ProjectController.update");
 })
   .prefix("api/v1/projects")
   .middleware("auth");
