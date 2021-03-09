@@ -43,6 +43,21 @@ Route.group(function () {
   .middleware("auth");
 
 /*
+ routes for tasks
+
+ return get all tasks for project our create task for project
+*/
+
+Route.group(function () {
+  Route.get("consult/:id", "TaskController.index");
+  Route.post("create/:id", "TaskController.create");
+  Route.delete("delete/:id", "TaskController.destroy");
+  Route.patch("update/:id", "TaskController.update");
+})
+  .prefix("api/v1/tasks")
+  .middleware("auth");
+
+/*
  routes for test
 
  return Hello world in JSON
