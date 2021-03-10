@@ -1,0 +1,78 @@
+version: "3"
+services:
+  #node 14
+  appnode:
+    container_name: appnode
+    image: node-adonis
+    build:
+      context: .
+      dockerfile: ./back/Dockerfile
+    environment:
+      - HOST=172.16.238.9
+      - PORT=3333
+      - NODE_ENV=development
+      - APP_NAME=AdonisJs
+      - APP_URL=http://${HOST}:${PORT}
+      - CACHE_VIEWS=false
+      - APP_KEY=CKO80HKi6FXwnCZ6TkwaGgsMscQuxzHQ
+      - DB_CONNECTION=pg
+      - DB_HOST=172.16.238.11
+      - DB_PORT=5432
+      - DB_USER=esteban
+      - DB_PASSWORD=123
+      - DB_DATABASE=test_api
+      - HASH_DRIVER=bcrypt
+    command: bash -c "npm i --save pg && npm install && npm install --production && adonis migration:run && adonis serve --dev"
+    volumes:
+      - ../test_api:/var/www/
+    ports:
+      - 3333:3333
+    networks:
+      net4:
+        ipv4_address: 172.16.238.9
+    # restart: unless-stopped
+
+  #Front react
+  front:
+    container_name: front
+    image: front-react
+    build:
+      context: .
+      dockerfile: ./front/Dockerfile
+    environment:
+      - REACT_APP_WS_KEY=aw2KalvdJEXntbq5w94fklTUkPBDIQAYOVW0ZIBafg65b
+      - REACT_APP_VAPI=v1
+    volumes:
+      - ../test-react:/var/www/
+    command: bash -c "npm install && npm install --production && npm start"
+    restart: unless-stopped
+    depends_on:
+      - appnode
+    ports:
+      - 3000:3000
+    networks:
+      net4:
+        ipv4_address: 172.16.238.10
+
+  #DataBAse postgress
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=esteban
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=test_api
+    ports:
+      - 5432:5432
+    networks:
+      net4:
+        ipv4_address: 172.16.238.11
+
+#network
+networks:
+  net4:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
