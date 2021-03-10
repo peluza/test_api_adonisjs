@@ -27,3 +27,15 @@ CREATE DATABASE Users_api WITH OWNER Esteban;
 ```
 \dt
 ```
+
+# Conection at data base
+
+```
+psql -h localhost -U esteban -d test_api
+```
+
+# stop services psql
+
+```
+sudo service postgresql stop
+```
