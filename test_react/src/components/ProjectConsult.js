@@ -85,6 +85,7 @@ function ProjectConsult() {
               <th>address</th>
               <th>created_at</th>
               <th>updated_at</th>
+              <th>Delete projects</th>
             </tr>
           </thead>
           <tbody>{UpdateTableData()}</tbody>
