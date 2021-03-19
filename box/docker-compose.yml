@@ -43,7 +43,7 @@ services:
       - REACT_APP_WS_KEY=aw2KalvdJEXntbq5w94fklTUkPBDIQAYOVW0ZIBafg65b
       - REACT_APP_VAPI=v1
     volumes:
-      - ../test-react:/var/www/
+      - ../test_react:/var/www/
     command: bash -c "npm install && npm install --production && npm start"
     restart: unless-stopped
     depends_on:
